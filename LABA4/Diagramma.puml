@@ -1,0 +1,103 @@
+@startuml
+class com.company.Main {
++ {static} void wait1(double)
++ {static} void main(String[])
+}
+class com.company.Furniture {
+- String name
+- int HP
+~ Furniture.AttackingElement attacking_element
++ <<Create>> Furniture(String,String)
++ String toString()
++ boolean equals(Object)
++ int hashCode()
++ void damage(int)
+}
+class com.company.Furniture.AttackingElement {
+# String name
++ String toString()
++ boolean equals(Object)
++ int hashCode()
++ void attack(Humanoid)
+}
+class com.company.BangNearbyFurniture {
++ void doMovement(Humanoid)
++ void badConsequence(Humanoid,Object)
+}
+interface com.company.AbruptMovement {
++ void badConsequence(Humanoid,Object)
+}
+interface com.company.MayBeDamaged {
++ void damage(int)
+}
+class com.company.RandomAimlessMovement {
++ void doMovement(Humanoid)
+}
+interface com.company.Movement {
++ void doMovement(Humanoid)
+}
+class com.company.Korotyshka {
+- Furniture nearest_furniture
+~ Korotyshka.Fist fist
++ <<Create>> Korotyshka(String,Furniture)
++ <<Create>> Korotyshka(String,Poses,PositionsInRoom)
++ void getAngry()
++ void printRelativePosition()
++ Furniture getNearbyFurniture()
++ void rollOver()
+}
+class com.company.Korotyshka.Fist {
++ void bangNearbyFurnitureByFist()
+}
+class com.company.MyTimerTask {
+- Humanoid humanoid
++ <<Create>> MyTimerTask(Humanoid)
++ void run()
+}
+abstract class com.company.Humanoid {
+# String name
++ Timer timer
+~ Humanoid.Occiput occiput
+~ Position position
++ <<Create>> Humanoid(String)
++ <<Create>> Humanoid(String,Poses,PositionsInRoom)
++ String toString()
++ boolean equals(Object)
++ int hashCode()
++ {abstract}void getAngry()
++ {abstract}void rollOver()
++ void setTimer(int)
++ void freeze()
++ void understandWhatIsRequired()
+}
+class com.company.Humanoid.Occiput {
+- int HP
++ <<Create>> Occiput(int)
++ void damage(int)
+}
+class com.company.Humanoid.Position {
+- Poses pose
+- PositionsInRoom pos_in_room
++ <<Create>> Position(Poses,PositionsInRoom)
++ String toString()
++ boolean equals(Object)
++ int hashCode()
++ Poses getPose()
++ void setPose(Poses)
++ PositionsInRoom getPosition()
++ void setPosition(PositionsInRoom)
+}
+
+
+com.company.MayBeDamaged <|.. com.company.Furniture
+com.company.Furniture +.. com.company.Furniture.AttackingElement
+com.company.AbruptMovement <|.. com.company.BangNearbyFurniture
+com.company.Movement <|.. com.company.BangNearbyFurniture
+com.company.Movement <|.. com.company.RandomAimlessMovement
+com.company.Humanoid <|-- com.company.Korotyshka
+com.company.Korotyshka +.. com.company.Korotyshka.Fist
+java.util.TimerTask <|-- com.company.MyTimerTask
+com.company.Humanoid +.. com.company.Humanoid.Occiput
+com.company.MayBeDamaged <|.. com.company.Humanoid.Occiput
+com.company.Humanoid +.. com.company.Humanoid.Position
+@enduml
